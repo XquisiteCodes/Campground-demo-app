@@ -1,0 +1,22 @@
+<% include ../partials/header.ejs %>
+<div class="ui container segment">
+    <form class="ui form" action="/post" method="POST">
+        <div class="ui field">
+            <label>Camp Name</label>
+            <input type="text" name="post[title]" placeholder="Title">
+        </div>
+        <div class="ui field">
+            <label>Image Link</label>
+            <input type="text" name="post[image]" placeholder="Image">
+        </div>
+        <div class="ui field">
+            <label>Description</label>
+            <textarea name="post[description]" id="" cols="30" rows="10" placeholder="Description"></textarea>
+        </div>
+
+            <input class="ui button" type="submit">
+        
+    </form>
+</div>
+
+<% include ../partials/footer.ejs %>

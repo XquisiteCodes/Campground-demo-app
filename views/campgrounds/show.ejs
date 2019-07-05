@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Campsite</p>
+            <div class="list-group">
+                <li class="list-group-item active">Group 1</li>
+                <li class="list-group-item">Group 2</li>
+                <li class="list-group-item">Group 3</li>
+            </div>
+            <a class="ui basic blue button" href="/post/<%= post._id %>/edit">Edit</a>
+            <form class="form" action="/post/<%= post._id %>?_method=DELETE" method="POST">
+                <button class="ui red basic button" type="submit">Delete</button>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <div id="thumb" class="thumbnail">
+                <img id="show" class="img-responsive" src="<%= post.image %>" alt="None">
+                <h4 class="pull-right"> <%=post.created.toDateString()%> </h4>
+                <h4><a href=""> <%= post.title %></a> </h4>
+                <p><%= post.description %></p>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-success" href="/post/<%=post._id%>/comments/new">Add new comments</a>
+                </div>
+                <% post.comments.forEach(function(comment){ %>
+                    <strong> <%=comment.author %> </strong> - <p> <%=comment.comment %> </p>
+                <% }) %>
+
+                
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+<% include ../partials/footer %>

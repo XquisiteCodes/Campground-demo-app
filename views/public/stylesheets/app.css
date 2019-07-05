@@ -1,0 +1,13 @@
+.form {
+    display: inline;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+.thumbnail img {
+    width: 100%;
+}
+#thumb {
+   padding: 0;
+}
