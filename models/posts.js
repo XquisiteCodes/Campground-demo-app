@@ -9,7 +9,14 @@ var campSchema = new mongoose.Schema({
             ref : 'Comment'
         }
     ],
-    created : {type :Date, default: Date.now}
+    created : {type :Date, default: Date.now},
+    author : {
+        id : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        username : String
+    }
 });
 
 module.exports = mongoose.model('Post', campSchema);

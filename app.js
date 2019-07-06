@@ -16,12 +16,9 @@ var express          = require('express'),
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(methodOverride('_method'));
 app.use(expressSanitizer());
-app.use(postRoutes);
-app.use(commentRoutes);
-app.use(indexRoutes);
 app.set('view engine' , 'ejs');
 app.use(express.static('views/public'));
-seedDB();
+// seedDB();
 
 mongoose.connect('mongodb://localhost/CampSites', {useNewUrlParser: true, useFindAndModify: false});
 
@@ -40,6 +37,9 @@ app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+app.use(postRoutes);
+app.use(commentRoutes);
+app.use(indexRoutes);
 
 app.listen(3000, function(){
     console.log('Server started');

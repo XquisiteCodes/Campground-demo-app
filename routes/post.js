@@ -16,12 +16,16 @@ router.get('/post', function(req, res){
     }) 
 });
 
-router.get('/post/new', function(req, res){
+router.get('/post/new',isLoggedIn, function(req, res){
     res.render('campgrounds/new', {currentUser: req.user});
 });
-router.post('/post', function(req, res){
+router.post('/post',isLoggedIn, function(req, res){
     req.body.post.description = req.sanitize(req.body.post.description);
-    Post.create(req.body.post, function(err, newPost){
+    var author = {
+        id : req.user._id,
+        username : req.user.username
+    };
+    Post.create(Object.assign(req.body.post, {author : author}), function(err, newPost){
         if (err) {
             console.log(err);
         } else {
@@ -66,4 +70,11 @@ router.delete('/post/:id', function(req, res){
         };
     });
 });
+
+function isLoggedIn (req, res, next){
+    if (req.isAuthenticated()){
+        return next()
+    }
+    res.redirect('/login');
+};
 module.exports = router;

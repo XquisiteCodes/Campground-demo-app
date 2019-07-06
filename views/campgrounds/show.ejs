@@ -16,16 +16,23 @@
         <div class="col-md-9">
             <div id="thumb" class="thumbnail">
                 <img id="show" class="img-responsive" src="<%= post.image %>" alt="None">
-                <h4 class="pull-right"> <%=post.created.toDateString()%> </h4>
-                <h4><a href=""> <%= post.title %></a> </h4>
-                <p><%= post.description %></p>
+                <div id="description">
+                    <h4 class="pull-right">
+                    <%=post.created.toDateString()%> </h4>
+                    <h4><a href=""> <%= post.title %></a> </h4>
+                    <p><%= post.description %></p>
+                    <p><em>Submitted By <%=post.author.username %> </em></p>
+                </div>
             </div>
             <div class="well">
                 <div class="text-right">
                     <a class="btn btn-success" href="/post/<%=post._id%>/comments/new">Add new comments</a>
                 </div>
+                <hr>
                 <% post.comments.forEach(function(comment){ %>
-                    <strong> <%=comment.author %> </strong> - <p> <%=comment.comment %> </p>
+                    <p class="pull-right"><%=comment.created.toDateString()%></p>
+                    <strong> <%=comment.author.username %> </strong>
+                    <p> <%=comment.comment %> </p>
                 <% }) %>
 
                 

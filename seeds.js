@@ -35,34 +35,34 @@ var data = [{
 
 function seedDB(){
     Post.remove({}, function(err){
-        if (err){
-            console.log('didn"t work');
-        }
-        console.log('cleared database');
+    //     if (err){
+    //         console.log('didn"t work');
+    //     }
+    //     console.log('cleared database');
 
-        data.forEach(function(data){
-            Post.create(data, function(err, newcamp){
-                if (err){
-                    console.log(err);
-                } else {
-                    console.log('added a new campground');
-                    Comment.create(
-                        {
-                            author : 'Sammy',
-                            comment : 'I love this place'
-                        }, function(err, comment){
-                            if (err){
-                                console.log(err)
-                            } else {
-                                newcamp.comments.push(comment);
-                                newcamp.save();
-                                console.log('created comment');
-                            }
-                        }
-                    )
-                };
-            })
-        })
+    //     data.forEach(function(data){
+    //         Post.create(data, function(err, newcamp){
+    //             if (err){
+    //                 console.log(err);
+    //             } else {
+    //                 console.log('added a new campground');
+    //                 Comment.create(
+    //                     {
+    //                         author : 'Sammy',
+    //                         comment : 'I love this place'
+    //                     }, function(err, comment){
+    //                         if (err){
+    //                             console.log(err)
+    //                         } else {
+    //                             newcamp.comments.push(comment);
+    //                             newcamp.save();
+    //                             console.log('created comment');
+    //                         }
+    //                     }
+    //                 )
+    //             };
+    //         })
+    //     })
     });
     
 };

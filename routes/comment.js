@@ -23,6 +23,9 @@ router.post('/post/:id/comments',isLoggedIn, function(req, res){
                     console.log(err);
                     res.redirect('/post/:id/comments/new');
                 } else {
+                    newComment.author.id = req.user._id;
+                    newComment.author.username = req.user.username;
+                    newComment.save();
                     post.comments.push(newComment);
                     post.save();
                     res.redirect('/post/' + post._id);
