@@ -8,10 +8,6 @@
                 <li class="list-group-item">Group 2</li>
                 <li class="list-group-item">Group 3</li>
             </div>
-            <a class="ui basic blue button" href="/post/<%= post._id %>/edit">Edit</a>
-            <form class="form" action="/post/<%= post._id %>?_method=DELETE" method="POST">
-                <button class="ui red basic button" type="submit">Delete</button>
-            </form>
         </div>
         <div class="col-md-9">
             <div id="thumb" class="thumbnail">
@@ -22,6 +18,12 @@
                     <h4><a href=""> <%= post.title %></a> </h4>
                     <p><%= post.description %></p>
                     <p><em>Submitted By <%=post.author.username %> </em></p>
+                    <% if (currentUser && post.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-warning" href="/post/<%= post._id %>/edit">Edit</a>
+                        <form class="form" action="/post/<%= post._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
             <div class="well">
@@ -33,6 +35,12 @@
                     <p class="pull-right"><%=comment.created.toDateString()%></p>
                     <strong> <%=comment.author.username %> </strong>
                     <p> <%=comment.comment %> </p>
+                    <% if (currentUser && comment.author.id.equals(currentUser._id)){ %>
+                        <form class="form" action="/post/<%= post._id %>/comment/<%=comment.id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger" type="submit">Delete</button>
+                        </form>
+                        <a class="btn btn-xs btn-warning" href="/post/<%=post._id%>/comment/<%=comment._id %>/edit">Edit</a>
+                    <% } %>
                 <% }) %>
 
                 

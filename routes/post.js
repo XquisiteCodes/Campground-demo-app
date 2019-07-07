@@ -1,7 +1,7 @@
 var express = require('express');
 var router   = express.Router();
 var Post     = require('../models/posts');
-
+var middleware = require('../middleware')
 
 router.get('/', function(req, res){
     res.redirect('/post');
@@ -16,10 +16,10 @@ router.get('/post', function(req, res){
     }) 
 });
 
-router.get('/post/new',isLoggedIn, function(req, res){
+router.get('/post/new',middleware.isLoggedIn, function(req, res){
     res.render('campgrounds/new', {currentUser: req.user});
 });
-router.post('/post',isLoggedIn, function(req, res){
+router.post('/post',middleware.isLoggedIn, function(req, res){
     req.body.post.description = req.sanitize(req.body.post.description);
     var author = {
         id : req.user._id,
@@ -43,16 +43,16 @@ router.get('/post/:id', function(req, res){
         };
     });
 });
-router.get('/post/:id/edit', function(req, res){
+router.get('/post/:id/edit',middleware.checkCampgroundOwnership, function(req, res){
     Post.findById(req.params.id, function(err, post){
         if (err){
-            res.redirect('/post')
+            res.redirect('/post');
         } else {
-            res.render('edit', {post: post, currentUser: req.user})
+            res.render('campgrounds/edit', {post: post, currentUser: req.user});
         };
     });
 });
-router.put('/post/:id', function(req, res){
+router.put('/post/:id',middleware.checkCampgroundOwnership, function(req, res){
     Post.findByIdAndUpdate(req.params.id, req.body.post, function(err, post){
         if (err){
             res.redirect('/post');
@@ -61,7 +61,7 @@ router.put('/post/:id', function(req, res){
         };
     });
 });
-router.delete('/post/:id', function(req, res){
+router.delete('/post/:id',middleware.checkCampgroundOwnership, function(req, res){
     Post.findByIdAndRemove(req.params.id, function(err){
         if (err){
             res.redirect('/post');
@@ -71,10 +71,4 @@ router.delete('/post/:id', function(req, res){
     });
 });
 
-function isLoggedIn (req, res, next){
-    if (req.isAuthenticated()){
-        return next()
-    }
-    res.redirect('/login');
-};
 module.exports = router;
