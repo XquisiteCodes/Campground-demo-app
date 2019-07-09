@@ -11,7 +11,8 @@ var express          = require('express'),
     postRoutes       = require('./routes/post'),
     commentRoutes    = require('./routes/comment'),
     indexRoutes      = require('./routes/index'),
-    app              = express();
+    app              = express(),
+    flash            = require('connect-flash');
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(methodOverride('_method'));
@@ -22,10 +23,6 @@ app.use(express.static('views/public'));
 
 mongoose.connect('mongodb://localhost/CampSites', {useNewUrlParser: true, useFindAndModify: false});
 
-app.use(function(req, res, next){
-    res.locals.currentUser = req.user;
-    next();
-});
 //Passport Configuration
 app.use(expressSession({
     secret: 'anything',
@@ -37,6 +34,15 @@ app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+
+app.use(flash());
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    next();
+});
 app.use(postRoutes);
 app.use(commentRoutes);
 app.use(indexRoutes);
